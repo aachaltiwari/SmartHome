@@ -1,11 +1,11 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
-from django.db.models.query import QuerySet
 from django.db.models.aggregates import Count
 from django.urls import reverse
 from django.utils.html import urlencode, format_html
 
 from.import models
+
 
 # Register your models here.
 class UserProfileInline(admin.TabularInline):
@@ -109,7 +109,8 @@ class NotificationAdmin(admin.ModelAdmin):
 class BulbInline(admin.TabularInline):
     model = models.Bulb
     extra = 1
-
+    
+    
 @admin.register(models.Room)
 class RoomAdmin(admin.ModelAdmin):
     autocomplete_fields = ['user']
@@ -136,12 +137,11 @@ class BulbAdmin(admin.ModelAdmin):
     autocomplete_fields = ['room']
     list_display = ['id', 'colour', 'bulb_status', 'user', 'room']
     list_editable = ['colour']
-    list_filter = ['room']
+    list_filter = ['room__user', 'room']
     list_select_related = ['room', 'room__user']
     ordering = ['id']
     search_fields = ['colour__istartswith']
     
-    # Assuming 'user' is a ForeignKey field on your Sensor model pointing to a user model
     def user(self, obj):
         return obj.room.user.username if obj.room.user else ''
 
@@ -169,53 +169,10 @@ class SensorAdmin(admin.ModelAdmin):
 @admin.register(models.SensorValueStore)
 class SensorValueStoreAdmin(admin.ModelAdmin):
     autocomplete_fields = ['sensor']
-    list_display = ['id', 'value', 'user_name', 'sensor']
+    list_display = ['id', 'value', 'date', 'user_name', 'sensor']
     list_filter = ['sensor']
     list_select_related = ['sensor', 'sensor__user']
     ordering = ['id']
     
     def user_name(self,obj):
         return obj.sensor.user.username if obj.sensor.user else ''
-
-
-"""
-
-list_per_page = no
-
-ordering = ["sth", "sth", ...]
-
-class Meta:
-	ordering = ["sth". "sth", ...]
-
-@admin.display(ordering = "sth")
-
-list_select_related = ["sth", "sth", ...]
-
-search_fields = ["sth", "sth__startswith", "sth__istartswith", ...]
-
-list_filter = ["sth", CustomClass]
-
-actions = ["custom_action"]
-
-fields OR exclude OR readonly_fields = ["sth", "sth", ...]
-
-prepopulated_fileds = {
-	"sth": ["sth", "sth"],
-	"sth": ["sth", "sth"]
-}
-
-autocomplete_fields = ["sth". "sth", ...] 
-#write searchfield first to autocomplete the given field
-
-#null = True is for DB
-#blank = True is for adminsite
-
-#Import different validatiors in models.py and apply to fields for getting
-# understandable error while filling up the form
-
-inlines = [childrenClass] 
-#beautiful 
-# -> while creating user, you can add no. of sensors, no of rooms, 
-# rfid and many others in one go
-
-"""

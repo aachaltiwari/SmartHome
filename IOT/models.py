@@ -2,8 +2,10 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 
 
+
 class User(AbstractUser):
     pass
+
 
 
 class UserProfile(models.Model):
@@ -13,20 +15,22 @@ class UserProfile(models.Model):
 
 
 class RFID(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
     door_status = models.BooleanField()
+    user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
 
-    def __str__(self):
+    def str(self):
         return f'{self.door_status}'
 
 
+
 class Wifi(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
     wifi_ssid = models.CharField(max_length=255)
     wifi_password = models.CharField(max_length=255)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
 
-    def __str__(self):
+    def str(self):
         return f'{self.wifi_ssid}'
+
 
 
 class Notification(models.Model):
@@ -34,16 +38,18 @@ class Notification(models.Model):
     text = models.TextField()
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
-    def __str__(self):
+    def str(self):
         return f'{self.name}'
+
 
 
 class Room(models.Model):
     name = models.CharField(max_length=255)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
-    def __str__(self):
+    def str(self):
        return f'{self.name}'
+
 
 
 class Sensor(models.Model):
@@ -51,8 +57,9 @@ class Sensor(models.Model):
     value = models.FloatField()
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     
-    def __str__(self):
+    def str(self):
         return f'{self.name}'
+
 
 
 class Bulb(models.Model):
@@ -61,8 +68,8 @@ class Bulb(models.Model):
     room = models.ForeignKey(Room, on_delete=models.CASCADE)
 
 
+
 class SensorValueStore(models.Model):
     value = models.FloatField()
+    date = models.DateTimeField(auto_now_add = True)
     sensor = models.ForeignKey(Sensor, on_delete=models.CASCADE)
-
-

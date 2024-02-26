@@ -83,12 +83,8 @@ WSGI_APPLICATION = 'minor_project.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'smart_home',
-        'HOST': 'localhost',
-        'USER': 'root',
-        'PASSWORD': 'aachal@123',
-        # ... (other optional parameters)
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
 
