@@ -73,7 +73,7 @@ class UserProfileDetail(RetrieveUpdateDestroyAPIView):
     
 class SensorList(ListAPIView):
 
-    permission_classes = [IsAuthenticated, FullDjangoModelPermissions]
+   # permission_classes = [IsAuthenticated, FullDjangoModelPermissions]
 
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
     filterset_fields = ['user']
@@ -81,10 +81,10 @@ class SensorList(ListAPIView):
     search_fields = ['name']
 
     def get_queryset(self):
-        if self.request.user.is_staff:
-            query_set = Sensor.objects.select_related('user').all().order_by('id')
-            return query_set
-        query_set = Sensor.objects.select_related('user').filter(user_id=self.request.user.id).order_by('id')
+        # if self.request.user.is_staff:
+        #     query_set = Sensor.objects.select_related('user').all().order_by('id')
+        #     return query_set
+        query_set = Sensor.objects.select_related('user').filter(user_id=7).order_by('id')
         return query_set
     
     def get_serializer_class(self):
@@ -94,19 +94,19 @@ class SensorList(ListAPIView):
 
 class SensorDetail(RetrieveAPIView):
 
-    permission_classes = [IsAuthenticated, FullDjangoModelPermissions]
+    #permission_classes = [IsAuthenticated, FullDjangoModelPermissions]
     
     
     def get_queryset(self):
         pk = self.kwargs['pk']
-        queryset = Sensor.objects.select_related('user').filter(user__id=self.request.user.id).filter(pk=pk)
+        queryset = Sensor.objects.select_related('user').filter(user__id=7).filter(pk=pk)
         return queryset
     
     def get_serializer_class(self):
         return SensorSerializer
     
     def get(self, request, pk):
-        queryset = get_object_or_404(Sensor.objects.select_related('user').filter(user__id=self.request.user.id), pk=pk)
+        queryset = get_object_or_404(Sensor.objects.select_related('user').filter(user__id=7), pk=pk)
         serializer = SensorSerializer(queryset)
         return Response(serializer.data)
     
@@ -155,7 +155,7 @@ class ParticularSensorUpdate(RetrieveUpdateAPIView):
 
 class LastWeekAverage(APIView):
 
-    permission_classes = [IsAuthenticated]
+    #permission_classes = [IsAuthenticated]
     
     def get(self, request, index):
         
