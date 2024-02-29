@@ -124,8 +124,12 @@ class ParticularSensorUpdate(RetrieveUpdateAPIView):
     
     def get(self, request, pk):
         queryset = get_object_or_404(Sensor.objects.select_related("user"), id=pk)
-        serializer = SensorSerializer(queryset)
-        return Response(serializer.data)
+        if queryset.user_id == request.user.id:
+            serializer = SensorSerializer(queryset)
+            return Response(serializer.data)
+        else:
+            return Response({"detail": "You can only view your sensor"}, status=status.HTTP_403_FORBIDDEN)
+            
     
     def put(self, request, pk):
         queryset = get_object_or_404(Sensor, id=pk)
@@ -150,6 +154,8 @@ class ParticularSensorUpdate(RetrieveUpdateAPIView):
 
 
 class LastWeekAverage(APIView):
+
+    permission_classes = [IsAuthenticated]
     
     def get(self, request, index):
         
