@@ -73,7 +73,7 @@ class UserProfileDetail(RetrieveUpdateDestroyAPIView):
     
 class SensorList(ListAPIView):
 
-   # permission_classes = [IsAuthenticated, FullDjangoModelPermissions]
+    permission_classes = [IsAuthenticated, FullDjangoModelPermissions]
 
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
     filterset_fields = ['user']
@@ -81,12 +81,10 @@ class SensorList(ListAPIView):
     search_fields = ['name']
 
     def get_queryset(self):
-        # if self.request.user.is_staff:
-        #     query_set = Sensor.objects.select_related('user').all().order_by('id')
-        #     return query_set
-        query_set = Sensor.objects.select_related('user').filter(user_id=7).order_by('id')
-        return query_set
-    
+        if self.request.user.is_staff:
+            query_set = Sensor.objects.select_related('user').all().order_by('id')
+            return query_set
+
     def get_serializer_class(self):
         return SensorSerializer
 
@@ -94,7 +92,7 @@ class SensorList(ListAPIView):
 
 class SensorDetail(RetrieveAPIView):
 
-    #permission_classes = [IsAuthenticated, FullDjangoModelPermissions]
+    permission_classes = [IsAuthenticated, FullDjangoModelPermissions]
     
     
     def get_queryset(self):
@@ -155,7 +153,7 @@ class ParticularSensorUpdate(RetrieveUpdateAPIView):
 
 class LastWeekAverage(APIView):
 
-    #permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated]
     
     def get(self, request, index):
         

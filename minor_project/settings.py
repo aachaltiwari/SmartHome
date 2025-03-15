@@ -41,8 +41,8 @@ INSTALLED_APPS = [
     'IOT',
     'debug_toolbar',
     'rest_framework',
-    'django_filters', ###
-    'djoser', ###
+    'django_filters',
+    'djoser',
 ]
 
 MIDDLEWARE = [

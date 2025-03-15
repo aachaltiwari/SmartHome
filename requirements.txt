@@ -1,0 +1,7 @@
+django
+djoser
+django_rest_framework
+djangorestframework-simplejwt
+django_cors_headers
+django-debug-toolbar
+django-filter

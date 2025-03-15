@@ -3,7 +3,7 @@ import time
 
 #for temperature hai
 def fetch_temp_data():
-    url = "https://blynk.cloud/external/api/get?token=nk24hJbhlmcJv9x6n8E49fH-Nx7sMrRb&v6"
+    url = "https://blynk.cloud/external/api/get?token=<token>"
     response = requests.get(url)
     if response.status_code == 200:
         return response.text
@@ -12,7 +12,7 @@ def fetch_temp_data():
 
 #for humidity hai
 def fetch_humidity_data():
-    url = "https://blynk.cloud/external/api/get?token=nk24hJbhlmcJv9x6n8E49fH-Nx7sMrRb&v5"
+    url = "https://blynk.cloud/external/api/get?token=<token>"
     response = requests.get(url)
     if response.status_code == 200:
         return response.text
@@ -21,7 +21,7 @@ def fetch_humidity_data():
 
 #for soil_moisture hai
 def fetch_soil_moisture_data():
-    url = "https://blynk.cloud/external/api/get?token=nk24hJbhlmcJv9x6n8E49fH-Nx7sMrRb&v7"
+    url = "https://blynk.cloud/external/api/get?token=<token>"
     response = requests.get(url)
     if response.status_code == 200:
         return response.text
@@ -31,7 +31,7 @@ def fetch_soil_moisture_data():
 #temperature value update in database
 def put_temp(temp):
     data = {
-    "pk": 12,
+    "pk": 1,
     "name": "temperature",
     "value": temp,
     "user": 7
@@ -49,7 +49,7 @@ def put_temp(temp):
 #soil moisture value update in database
 def put_soil(soil):
     data = {
-    "pk": 13,
+    "pk": 2,
     "name": "moisture",
     "value": soil,
     "user": 7
@@ -68,7 +68,7 @@ def put_soil(soil):
 #humidity value update in database
 def put_humi(humi):
     data = {
-    "pk": 14,
+    "pk": 3,
     "name": "humidity",
     "value": humi,
     "user": 7
